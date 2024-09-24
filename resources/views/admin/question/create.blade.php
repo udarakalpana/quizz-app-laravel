@@ -17,7 +17,7 @@
                         </div>
                         <div class="mb-5">
                             <label for="answer1" class="mb-2 text-sm font-medium text-gray-900 dark:text-white">Answer 1</label>
-                            <input type="text" id="answer1" class="text-input" required />
+                            <input type="text" id="answer1" name="answer1" class="text-input" required />
 
                             <input id="correct" name="correct" type="checkbox" value="answer1" class="inline h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
                             <label for="correct" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Correct</label>
