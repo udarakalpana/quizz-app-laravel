@@ -7,6 +7,7 @@ use App\Models\Question;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -17,7 +18,7 @@ class QuestionController extends Controller
         return view('admin.question.create');
     }
 
-    public function addQuestion(Request $request)
+    public function addQuestion(Request $request): RedirectResponse
     {
         $this->validateQuestionRequest($request);
 
