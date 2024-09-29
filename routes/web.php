@@ -19,7 +19,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/create-question', [QuestionController::class, 'createQuestion'])->name('create-question');
     Route::post('/add-question', [QuestionController::class, 'addQuestion'])->name('add-question');
-
+    Route::get('/edit-question/{questionId}', [QuestionController::class, 'editQuestion'])->name('edit-question');
+    Route::put('/update-question/{questionId}', [QuestionController::class, 'updateQuestion'])->name('update-question');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
