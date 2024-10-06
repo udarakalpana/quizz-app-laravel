@@ -21,6 +21,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/add-question', [QuestionController::class, 'addQuestion'])->name('add-question');
     Route::get('/edit-question/{questionId}', [QuestionController::class, 'editQuestion'])->name('edit-question');
     Route::put('/update-question/{questionId}', [QuestionController::class, 'updateQuestion'])->name('update-question');
+    Route::get('/delete-question/{questionId}', [QuestionController::class, 'deleteQuestion'])->name('delete-question');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {

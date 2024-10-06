@@ -104,4 +104,13 @@ class QuestionController extends Controller
         return redirect()->route('dashboard');
 
     }
+
+    public function deleteQuestion(string $questionId)
+    {
+        $question = Question::findOrFail($questionId);
+
+        $question->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Question has been deleted');
+    }
 }
