@@ -6,17 +6,35 @@ use App\Models\Question;
 use App\Models\UserAnswer;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function showUserDashboard(): View|Factory|Application
+    public function showUserDashboard(Request $request): View|Factory|Application
     {
-        $questions = Question::with('answers')->get();
+        $user = $request->user();
 
-        return view('user.dashboard')->with('questions', $questions);
+        //$questions = Question::with('answers')->get();
+
+        // Lazy loading attamp is here.
+        $unAnswersQuestions = Question::whereDoesntHave('userAnswers', function (Builder $query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
+
+        $totalQuestionsCount = Question::count();
+
+        $correctAnswersCount = UserAnswer::where('user_id', $user->id)
+        ->where('is_correct', true)
+        ->count();
+
+        return view('user.dashboard')->with([
+            'questions' => $unAnswersQuestions,
+            'totalQuestionsCount' => $totalQuestionsCount,
+            'correctAnswersCount' => $correctAnswersCount,
+        ]);
     }
 
     public function answerForQuestion(string $questionId, Request $request): RedirectResponse

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Question Count / Correct Answered count
+            Total Question {{$totalQuestionsCount}} / Correct Answered {{$correctAnswersCount}}
         </h2>
     </x-slot>
 
