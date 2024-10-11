@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use App\Http\Requests\QuestionCreateRequest;
+use App\Action\Admin\GetQuestionDetailsForQuestionUpdate;
 
 class QuestionController extends Controller
 {
@@ -31,25 +32,15 @@ class QuestionController extends Controller
         return redirect()->route('dashboard')->with('warning', 'validation error have');
     }
 
-    public function editQuestion(string $questionId)
-    {
-        $question = Question::with('answers')->findOrFail($questionId);
+    public function editQuestion(
+        string $questionId,
+        GetQuestionDetailsForQuestionUpdate $getQuestionDetailsForQuestionUpdate
+    ): RedirectResponse {
+        if ($questionId) {
+            $getQuestionDetailsForQuestionUpdate->getQuestionAndRelatedAnswersForUpdate($questionId);
+        }
 
-        $answer1 = $question->answers[0]->answer;
-        $answer2 = $question->answers[1]->answer;
-        $answer3 = $question->answers[2]->answer;
-        $answer4 = $question->answers[3]->answer;
-
-        $sendToBlade = [
-            'question' => $question,
-            'correct_answer' => $question->correct_answer,
-            'answer1' => $answer1,
-            'answer2' => $answer2,
-            'answer3' => $answer3,
-            'answer4' => $answer4,
-        ];
-
-        return view('admin.question.update')->with($sendToBlade);
+        return redirect()->route('dashboard')->with('warning', 'validation error have');
     }
 
     public function updateQuestion(string $questionId, QuestionCreateRequest $request)
