@@ -1,15 +1,14 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('index');
-
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'showDashboard'])->name('dashboard');
@@ -33,6 +32,5 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'showUserDashboard'])->name('user-dashboard');
     Route::post('/user/answer-for-question/{questionId}', [UserController::class, 'answerForQuestion'])->name('answer-for-question');
 });
-
 
 require __DIR__.'/auth.php';

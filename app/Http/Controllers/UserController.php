@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use App\Models\UserAnswer;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -40,7 +40,7 @@ class UserController extends Controller
     public function answerForQuestion(string $questionId, Request $request): RedirectResponse
     {
         $validatedAnswer = $request->validate([
-            'answer' => ['required', 'string']
+            'answer' => ['required', 'string'],
         ]);
 
         $question = Question::findOrFail($questionId);
@@ -53,12 +53,11 @@ class UserController extends Controller
             'user_id' => $user->id,
             'question_id' => $question->id,
             'answer' => $validatedAnswer['answer'],
-            'is_correct' => $isCorrectAnswer
+            'is_correct' => $isCorrectAnswer,
         ]);
 
         $message = $isCorrectAnswer ? 'Your answer is correct' : 'Your answer is wrong';
 
         return redirect()->route('user-dashboard')->with('message', $message);
-
     }
 }
