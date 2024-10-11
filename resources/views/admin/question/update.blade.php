@@ -22,7 +22,7 @@
                                 <label for="answer{{$index + 1}}" class="mb-2 text-sm font-medium text-gray-900 dark:text-white">Answer {{$index + 1}}</label>
                                 <input type="text" id="answer{{$index + 1}}" name="answer{{$index + 1}}" value="{{$answer}}"  class="text-input" required />
 
-                                <input id="correct" name="correct" type="radio" value="answer1" class="radio-input"
+                                <input id="correct" name="correct" type="radio" value="answer{{$index + 1}}" class="radio-input"
                                     {{$correct_answer === 'answer'.($index + 1) ? 'checked' : ''}}
                                 />
                                 <label for="correct" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Correct</label>
