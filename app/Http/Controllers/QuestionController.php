@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
+use App\Action\Admin\CreateQuestion;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
@@ -18,34 +18,17 @@ class QuestionController extends Controller
         return view('admin.question.create');
     }
 
-    public function addQuestion(QuestionCreateRequest $request): RedirectResponse
-    {
+    public function addQuestion(
+        QuestionCreateRequest $request,
+        CreateQuestion $createQuestion
+    ): RedirectResponse {
         $validatedQuestionCreateRequest = $request->validated();
 
-        $question = Question::create([
-            'question' => $validatedQuestionCreateRequest['question'],
-            'correct_answer' => $validatedQuestionCreateRequest['correct'],
-        ]);
-
-        if (! $question) {
-            return redirect()->route('dashboard');
+        if ($validatedQuestionCreateRequest) {
+            $createQuestion->createQuestionAndAnswers($validatedQuestionCreateRequest);
         }
 
-        $answers = [
-              'answer1' => $validatedQuestionCreateRequest['answer1'],
-              'answer2' => $validatedQuestionCreateRequest['answer2'],
-              'answer3' => $validatedQuestionCreateRequest['answer3'],
-              'answer4' => $validatedQuestionCreateRequest['answer4'],
-        ];
-
-        foreach ($answers as $answer) {
-            Answer::create([
-                'question_id' => $question->id,
-                'answer' => $answer,
-            ]);
-        }
-
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('warning', 'validation error have');
     }
 
     public function editQuestion(string $questionId)
